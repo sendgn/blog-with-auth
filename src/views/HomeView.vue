@@ -1,5 +1,10 @@
 <template>
   <div class="home">
+    <!-- Vuex basics -->
+    <div>points: {{ points }}</div>
+    <button @click="updatePoints(1)">add a point</button>
+    <button @click="updatePoints(-1)">remove a point</button>
+
     <div v-for="blog in blogs" :key="blog.id">
       <div class="blog">
         <h3>{{ blog.title }}</h3>
@@ -26,8 +31,20 @@ export default {
     ]);
 
     return {
-      blogs,
+      blogs
     };
+  },
+  // Example how we work with state using Options API
+  methods: {
+    updatePoints(points) {
+      // we say what mutation we want to commit
+      this.$store.commit('updatePoints', points);
+    }
+  },
+  computed: {
+    points() {
+      return this.$store.state.points;
+    }
   }
 };
 </script>
