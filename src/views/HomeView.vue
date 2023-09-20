@@ -1,10 +1,5 @@
 <template>
   <div class="home">
-    <!-- Vuex basics -->
-    <div>points: {{ points }}</div>
-    <button @click="updatePoints(1)">add a point</button>
-    <button @click="updatePoints(-1)">remove a point</button>
-
     <div v-for="blog in blogs" :key="blog.id">
       <div class="blog">
         <h3>{{ blog.title }}</h3>
@@ -20,7 +15,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -31,24 +26,16 @@ export default {
       { title: 'Mario vs Luigi, Ultimate Showdown', id: 3 },
     ]);
 
-    // Get us access to the store,
-    // same as this.$store in Options API
+    // Get us access to the store
     const store = useStore();
 
-    // Create a computed property which is
-    // accessing points from the state on the store
-    const points = computed(() => store.state.points);
+    console.log(store.state.user);
 
-    const updatePoints = (p) => {
-      // Commit a new mutation on the store
-      // called updatePoints in @/store/index.js
-      store.commit('updatePoints', p);
-    }
+    // Commit a new mutation
+    store.commit('setUser', 'yoshi');
 
     return {
-      blogs,
-      points,
-      updatePoints
+      blogs
     };
   }
 };
