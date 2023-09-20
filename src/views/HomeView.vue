@@ -20,7 +20,8 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   setup() {
@@ -30,21 +31,25 @@ export default {
       { title: 'Mario vs Luigi, Ultimate Showdown', id: 3 },
     ]);
 
+    // Get us access to the store,
+    // same as this.$store in Options API
+    const store = useStore();
+
+    // Create a computed property which is
+    // accessing points from the state on the store
+    const points = computed(() => store.state.points);
+
+    const updatePoints = (p) => {
+      // Commit a new mutation on the store
+      // called updatePoints in @/store/index.js
+      store.commit('updatePoints', p);
+    }
+
     return {
-      blogs
+      blogs,
+      points,
+      updatePoints
     };
-  },
-  // Example how we work with state using Options API
-  methods: {
-    updatePoints(points) {
-      // we say what mutation we want to commit
-      this.$store.commit('updatePoints', points);
-    }
-  },
-  computed: {
-    points() {
-      return this.$store.state.points;
-    }
   }
 };
 </script>
