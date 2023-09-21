@@ -26,14 +26,19 @@
 
 <script>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   setup() {
     const email = ref('');
     const password = ref('');
 
+    const store = useStore();
+
     const handleSubmit = () => {
-      console.log(email.value, password.value);
+      // Call the action, or 'dispatch the action' as it's known
+      // this is our way of basically say - look I want you to run one of the actions
+      store.dispatch('signup', { email: email.value, password: password.value });
     }
 
     return { handleSubmit, email, password };
