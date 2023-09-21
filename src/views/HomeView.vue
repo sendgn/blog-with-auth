@@ -31,9 +31,6 @@ export default {
 
     console.log(store.state.user);
 
-    // Commit a new mutation
-    store.commit('setUser', 'yoshi');
-
     return {
       blogs
     };
