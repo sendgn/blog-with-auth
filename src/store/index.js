@@ -1,5 +1,11 @@
 import { createStore } from "vuex";
 
+// Firebase imports
+import { auth } from '../firebase/config';
+import {
+  createUserWithEmailAndPassword
+} from 'firebase/auth';
+
 const store = createStore({
   state: {
     user: null
@@ -24,13 +30,16 @@ const store = createStore({
     // 1) context - context object that has a commit() method
     // which we use to commit a mutation once we've done the asynchronous code
     // 2) payload - any data we're sending to the action
-    signup(context, { email, password }) {
+    async signup(context, { email, password }) {
       console.log('signup action');
 
       // async code
-      setTimeout(() => {
-        context.commit('setUser', { email, password });
-      }, 2000);
+      const resp = await createUserWithEmailAndPassword(auth, email, password);
+      if (resp) {
+        context.commit('setUser', resp.user);
+      } else {
+        throw new Error('could not complete signup');
+      }
     }
   }
 });

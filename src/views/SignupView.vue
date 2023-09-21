@@ -21,27 +21,38 @@
     >
 
     <button>Sign up</button>
+    <div v-if="error">{{ error }}</div>
   </form>
 </template>
 
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const email = ref('');
     const password = ref('');
+    const error = ref(null);
 
     const store = useStore();
+    const router = useRouter();
 
-    const handleSubmit = () => {
-      // Call the action, or 'dispatch the action' as it's known
-      // this is our way of basically say - look I want you to run one of the actions
-      store.dispatch('signup', { email: email.value, password: password.value });
+    const handleSubmit = async () => {
+      try {
+        await store.dispatch('signup', {
+          email: email.value,
+          password: password.value
+        });
+        // redirect user to the home page
+        router.push('/');
+      } catch (err) {
+        error.value = err.mesage;
+      }
     }
 
-    return { handleSubmit, email, password };
+    return { handleSubmit, email, password, error };
   }
 };
 </script>
