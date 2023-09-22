@@ -6,12 +6,12 @@
       <router-link to="/">Home</router-link>
     </div>
     <!-- For logged in users -->
-    <div class="shift-down">
-      <span>Logged in as...</span>
+    <div v-if="user" class="shift-down">
+      <span>Logged in as <b>{{ user.email }}</b></span>
       <button @click="handleClick">Log out</button>
     </div>
     <!-- For logged out users -->
-    <div>
+    <div v-else>
       <router-link to="/login">Log in</router-link>
       <router-link to="/signup">Sign up</router-link>
     </div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -30,7 +31,10 @@ export default {
       store.dispatch('logout');
     }
 
-    return { handleClick }
+    return {
+      handleClick,
+      user: computed(() => store.state.user)
+    }
   }
 }
 </script>
