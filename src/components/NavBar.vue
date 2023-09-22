@@ -8,7 +8,7 @@
     <!-- For logged in users -->
     <div class="shift-down">
       <span>Logged in as...</span>
-      <button>Log out</button>
+      <button @click="handleClick">Log out</button>
     </div>
     <!-- For logged out users -->
     <div>
@@ -17,3 +17,20 @@
     </div>
   </nav>
 </template>
+
+<script>
+import { useStore } from 'vuex';
+
+export default {
+  setup() {
+    const store = useStore();
+    // const user = store.state.user;
+    
+    const handleClick = () => {
+      store.dispatch('logout');
+    }
+
+    return { handleClick }
+  }
+}
+</script>
